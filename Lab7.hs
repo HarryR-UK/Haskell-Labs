@@ -73,15 +73,15 @@ profit_report stocks log = unlines $ zipWith (\x y -> x ++ ": " ++ show (profit 
 -- Part C
 -- take and drop while
 
+-- update: went through slides and found a more optimised way to split the trade into separate sections
+-- this is through the use of the words keyword
 complex_profit_update_money trade money p =
   let
-    action = takeWhile(/= ' ') trade
-    after_action = dropWhile(/= ' ') trade
-    units = read (takeWhile (/= ' ') $ dropWhile (== ' ')after_action) :: Int
-    after_units = dropWhile(/= ' ') $ dropWhile (== ' ') after_action
-    stock = takeWhile(/= ' ') $ dropWhile (==' ') after_units
-    after_stock = dropWhile(/= ' ') $ dropWhile(==' ') after_units
-    day = takeWhile(/=' ') $ dropWhile(==' ') after_stock
+    trade_list = words trade
+    action = trade_list !! 0
+    units = read (trade_list !! 1) :: Int
+    stock = trade_list !! 2
+    day = trade_list !! 3
     stock_price = (snd . head $ filter(\x -> fst x == stock) p) !! ((read(day)::Int) - 1) 
   in
     if action == "BUY" then (money - (units * stock_price)) else (money + (units * stock_price))
