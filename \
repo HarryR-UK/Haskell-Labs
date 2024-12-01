@@ -1,0 +1,17 @@
+import System.Environment
+
+one_arg = do
+    args <- getArgs
+    putStrLn . show $ args
+
+sum_two = do
+    args <- getArgs
+    let n = read(head args) :: Int
+        x = read(args !! 1) :: Int
+    putStrLn . show $ (n + x)
+
+
+main = do
+    args <- getArgs
+    let file = show (args !! 0)
+        l = readFile file
